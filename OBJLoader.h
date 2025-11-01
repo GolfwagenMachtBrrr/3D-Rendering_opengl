@@ -343,8 +343,8 @@ private:
         POSITION_TEXCOORD_NORMAL = 3,
     };
 
-    std::string directory_objFiles = "/home/judelhuu/CLionProjects/OpenGL_3D_Tutorial/OBJ-Files/";
-    std::string directory_Images = "/home/judelhuu/CLionProjects/OpenGL_3D_Tutorial/Images";
+    std::string directory_objFiles = "/home/judelhuu/CLionProjects/3D-Rendering_opengl/OBJ-Files/";
+    std::string directory_Images = "/home/judelhuu/CLionProjects/3D-Rendering_opengl/Images/";
 };
 
 #endif //OBJLOADER_H

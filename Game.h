@@ -235,8 +235,8 @@ private:
     void InitModels()
     {
 
-        m_models.push_back(new Model(vec3(0.f), m_textures, m_materials,
-          "/home/judelhuu/CLionProjects/OpenGL_3D_Tutorial/OBJ-Files/SnowTerrain.obj"));
+        m_models.push_back(new Model(vec3(0.f), m_materials[0], m_textures[1], m_textures[1],
+          "/home/judelhuu/CLionProjects/3D-Rendering_opengl/OBJ-Files/SnowTerrain.obj"));
 
         m_models[0]->SetScale(vec3(0.5f));
 
@@ -245,14 +245,14 @@ private:
     void InitTexture()
     {
         // temporary
-        m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/OpenGL_3D_Tutorial/Images/MangaGirl2.png", GL_TEXTURE_2D));
-        m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/OpenGL_3D_Tutorial/Images/MangaGirl2_negative.png", GL_TEXTURE_2D));
+        m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/3D-Rendering_opengl/Images/MangaGirl2.png", GL_TEXTURE_2D));
+        m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/3D-Rendering_opengl/Images/MangaGirl2_negative.png", GL_TEXTURE_2D));
 
-       m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/OpenGL_3D_Tutorial/Images/container.png", GL_TEXTURE_2D));
-       m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/OpenGL_3D_Tutorial/Images/container_specular.png", GL_TEXTURE_2D));
+        m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/3D-Rendering_opengl/Images/container.png", GL_TEXTURE_2D));
+        m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/3D-Rendering_opengl/Images/container_specular.png", GL_TEXTURE_2D));
 
-       m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/OpenGL_3D_Tutorial/Images/686.jpg", GL_TEXTURE_2D));
-       m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/OpenGL_3D_Tutorial/Images/686.jpg", GL_TEXTURE_2D));
+        m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/3D-Rendering_opengl/Images/686.jpg", GL_TEXTURE_2D));
+        m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/3D-Rendering_opengl/Images/686.jpg", GL_TEXTURE_2D));
     }
     void InitMaterial()
     {
@@ -280,7 +280,7 @@ private:
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-      // glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+       glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
 
     static GLFWwindow* CreateWindow()

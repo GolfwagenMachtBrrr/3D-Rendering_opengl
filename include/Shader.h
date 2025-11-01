@@ -80,7 +80,9 @@ private:
         }
         else
         {
-            std::cerr << "ERROR::LOADSHADERS::COULD_NOT_OPEN_FILE: " << filename << std::endl;
+            std::cout << filename << std::endl;
+            std::runtime_error("ERROR::LOADSHADERS::COULD_NOT_OPEN_FILE: ");
+
         }
 
         in_file.close();

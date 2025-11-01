@@ -46,10 +46,12 @@ namespace GameData
 
     namespace Shaders
     {
-        static const char *_vertexShaderPath =
-                "/home/judelhuu/CLionProjects/OpenGL_3D_Tutorial/Shaders/vertex_core.glsl";
+        static const char *_vertexShaderPath   =
+            "/home/judelhuu/CLionProjects/3D-Rendering_opengl/Shaders/vertex_core.glsl";
+
         static const char *_fragmentShaderPath =
-                "/home/judelhuu/CLionProjects/OpenGL_3D_Tutorial/Shaders/fragment_core.glsl";
+            "/home/judelhuu/CLionProjects/3D-Rendering_opengl/Shaders/fragment_core.glsl";
+
     }
 
     namespace util
