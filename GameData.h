@@ -58,13 +58,10 @@ namespace GameData
     {
         struct ViewPointData : public core::Singleton<ViewPointData>
         {
-            // sollte aufgeteilt werden sobald zweckvolle
-            // fov
             float fov = 0;
             float nearPlane = 0;
             float farPlane = 0;
 
-            // lighting
             glm::vec3 lightPosition{};
         };
         struct DeltaTime : public core::Singleton<DeltaTime>
@@ -83,6 +80,13 @@ namespace GameData
             double mouseOffsetY= 0;
 
             bool   firstMouse= true;
+        };
+
+        struct LoadHelperOBJ : public core::Singleton<LoadHelperOBJ>{
+            // does assist the func LoadFromFile in OBJLoader
+            // stores material segments for each of the vertexes
+
+            std::unordered_map<std::string, long long int> materialSegments;
         };
     }
 

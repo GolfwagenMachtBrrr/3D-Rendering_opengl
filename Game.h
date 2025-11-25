@@ -251,8 +251,16 @@ private:
         m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/3D-Rendering_opengl/Images/container.png", GL_TEXTURE_2D));
         m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/3D-Rendering_opengl/Images/container_specular.png", GL_TEXTURE_2D));
 
-        m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/3D-Rendering_opengl/Images/686.jpg", GL_TEXTURE_2D));
-        m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/3D-Rendering_opengl/Images/686.jpg", GL_TEXTURE_2D));
+        //m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/3D-Rendering_opengl/Images/686.jpg", GL_TEXTURE_2D));
+        //m_textures.push_back(new Texture("/home/judelhuu/CLionProjects/3D-Rendering_opengl/Images/686.jpg", GL_TEXTURE_2D));
+
+        // set names for later identification
+
+        m_textures[0]->SetID("manga");
+        m_textures[1]->SetID("manga_negative");
+
+        m_textures[2]->SetID("container");
+        m_textures[3]->SetID("container_negative");
     }
     void InitMaterial()
     {

@@ -12,6 +12,7 @@
 #include <sstream>
 #include <algorithm>
 #include <deque>
+#include <unordered_map>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -37,7 +38,7 @@ class OBJLoader : public core::Singleton<OBJLoader>
 public:
     std::vector<Vertex> LoadFromFile(const char* filename, std::vector<Texture*>& textures, std::vector<Material*>& materials)
     {
-    // vertex portions
+    // vertex positions
     std::vector<vec3> vertex_position;
     std::vector<vec3> vertex_normal;
     std::vector<vec2> vertex_texcoord;
@@ -59,6 +60,14 @@ public:
     std::string currentLine;
     std::string präfix;
 
+    // Init LoadHelper
+    GameData::util::LoadHelperOBJ::GetData();
+
+    // start with first material
+    std::string* currentMaterial = &materials[0]->GetID();
+    long long int currentMaterialCount = 0;
+
+    // data ....
     vec3 tmp_vec3;
     vec2 tmp_vec2;
     GLint tmp_glint = 0;
@@ -75,6 +84,10 @@ public:
         stringstream.str(currentLine);
         stringstream >> präfix;
 
+        // update material segment
+        currentMaterialCount++;
+
+        //parsing
         if (präfix == "#")
         {
 
@@ -99,26 +112,38 @@ public:
         {
             std::string materialType = currentLine;
             materialType.erase(materialType.begin(), materialType.begin()+7);
-            std::cout << "usemtl says: " << materialType << std::endl;
+
+            // Search for material & pick
+            for (auto& material : materials) {
+                if (material->GetID() == materialType.c_str())
+                {
+                    auto segment = std::make_pair<std::string, long long int>(std::move(*currentMaterial), std::move(currentMaterialCount));
+                    GameData::util::LoadHelperOBJ::GetData().materialSegments.insert(segment);
+
+                    currentMaterialCount = 0;
+                    currentMaterial = &material->GetID();
+                    break;
+                }
+            }
         }
         else if (präfix == "v") // vertex position
         {
             stringstream >> tmp_vec3.x >> tmp_vec3.y >> tmp_vec3.z;
             vertex_position.push_back(tmp_vec3);
         }
-        else if (präfix == "vt")
+        else if (präfix == "vt") // texture position
         {
             stringstream >> tmp_vec2.x >> tmp_vec2.y;
             vertex_texcoord.push_back(tmp_vec2);
         }
-        else if (präfix == "vn") // vertex position
+        else if (präfix == "vn") // normal position
         {
             stringstream >> tmp_vec3.x >> tmp_vec3.y >> tmp_vec3.z;
             vertex_normal.push_back(tmp_vec3);
         }
-        else if (präfix == "f") // vertex position
+        else if (präfix == "f") // face position
         {
-
+            // get current material
             std::deque<GLint> vertex_indices_unsorted;
             std::string line = stringstream.str();
 
@@ -149,7 +174,7 @@ public:
                         vertex_position_indices.push_back(vertex_indices_unsorted[i]);
                         vertex_normal_indices.push_back(vertex_indices_unsorted[i + 1]);
                     }
-
+                    //new Texture(std::string(directory_Images+imageFile).c_str(), texture_diffuse)
                     break;
                 }
 
@@ -264,25 +289,31 @@ private:
             }
             else if (mtl_präfix == "map_Kd")
             {
-
                 std::string imageFile = line;
                 imageFile.erase(imageFile.begin(), imageFile.begin()+7);
 
                 // umstellung auf dynamisches hinzufügen von Textures & Materials
                 // falls probleme auftreten suche hier; zukunftsjan!
                 texture_diffuse = textures.size();
-                textures.push_back(new Texture(std::string(directory_Images+imageFile).c_str(), texture_diffuse));
+                Texture* tex = new Texture(std::string(directory_Images+imageFile).c_str(), texture_diffuse);
+                tex->SetID(imageFile.c_str()); // TO-DO: Namen
+                textures.push_back(std::move(tex));
 
                 // assuming its ze last one:
                 if (texture_specular == -1) // temp
+                    std::cout << "TextureID for specular & diffuse" << texture_specular << std::endl;
                     texture_specular = texture_diffuse;
+
 
                 Material* mtl_material = new Material(material_ambient, material_diffuse, material_specular,
                                                       texture_diffuse, texture_specular);
-                mtl_material->SetMaterialID(material_name); // id zuweisen
+                mtl_material->SetID(material_name);
+                mtl_material->SetBoundTextureID(imageFile);
 
                 materials.emplace_back(mtl_material);
             }
+
+
 
             mtl_präfix.clear();
 
@@ -342,6 +373,17 @@ private:
         POSITION_NORMAL = 2,
         POSITION_TEXCOORD_NORMAL = 3,
     };
+
+    struct Face {
+        unsigned int v1, v2, v3;
+    };
+
+    struct GroupData {
+        std::vector<Face> faces;
+        std::string materialID;
+    };
+
+
 
     std::string directory_objFiles = "/home/judelhuu/CLionProjects/3D-Rendering_opengl/OBJ-Files/";
     std::string directory_Images = "/home/judelhuu/CLionProjects/3D-Rendering_opengl/Images/";

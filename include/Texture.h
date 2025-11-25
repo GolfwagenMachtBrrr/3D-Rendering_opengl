@@ -47,6 +47,14 @@ public:
         return m_textureID;
     }
 
+    void SetID(const char* ID) {
+        m_ID = ID;
+    }
+
+    const char* GetID() {
+        return  m_ID;
+    }
+
 
     void Bind(const GLint textureUnit)
     {
@@ -90,6 +98,7 @@ private:
     int m_height, m_width;
 
     unsigned int m_type;
+    const char* m_ID;
 };
 
 

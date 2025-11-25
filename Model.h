@@ -14,23 +14,6 @@
 class Model
 {
 public:
-    /*Model(const glm::vec3& position, Material* material, Texture* orTexDif, Texture* orTexSpec)
-    {
-        // inti data
-        m_material = material;
-        m_overrideTextureDiffuse = orTexDif;
-        m_overrideTextureSpecular = orTexSpec;
-        m_position = position;
-
-        m_meshes.push_back(new Mesh(new Pyramid(), vec3(0.f), vec3(0.f), vec3(1.f)));
-
-        for (const auto& mesh : m_meshes)
-        {
-            mesh->Move(position);
-        }
-
-        std::cout << "model created" << std::endl;
-    }*/
     Model(const glm::vec3& position, Material* material, Texture* orTexDif, Texture* orTexSpec, const char* filepath)
     {
         m_material = material;
@@ -50,36 +33,31 @@ public:
         std::vector<Vertex> mesh = OBJLoader::GetData().LoadFromFile(filepath, textures, materials);
         m_meshes.push_back(new Mesh(mesh.data(), mesh.size(), NULL, 0 ,vec3(0.f), vec3(0.f), vec3(1.f)));
 
+        std::cout << mesh.size() << std::endl;
 
         for (const auto& mesh : m_meshes)
         {
             mesh->Move(position);
         }
     }
-    //Model(const glm::vec3& position, Material* material, std::vector<Texture>& textures, const char* filepath);
+    Model(const glm::vec3& position, std::vector<Material*>& materials, std::vector<Texture*>& textures, const char* file)
+        : m_position(position)
+    {
+            m_materials.assign(materials.begin(), materials.end()); // nicht speicherfreundlich
+            m_textures.assign(textures.begin(), textures.end());
 
-    // Model(const glm::vec3& position, std::vector<Texture*>& textures, std::vector<Material*>& materials,  char* filepath)
-    // {
-    //     // inti data
-    //     m_position = position;
-    //     m_material = materials[0];
-    //
-    //     m_materials.assign(materials.begin(), materials.end());
-    //     m_textures.assign(textures.begin(), textures.end());
-    //
-    //     std::vector<Vertex> mesh = OBJLoader::GetData().LoadFromFile(filepath, textures, materials);
-    //     m_meshes.push_back(new Mesh(mesh.data(), mesh.size(), NULL, 0 ,vec3(0.f), vec3(0.f), vec3(1.f)));
-    //
-    //
-    //
-    //
-    //     for (const auto& mesh : m_meshes)
-    //     {
-    //         mesh->Move(position);
-    //     }
-    //
-    //     std::cout << "model created" << std::endl;
-    // }
+            std::vector<Vertex> mesh = OBJLoader::GetData().LoadFromFile(file, m_textures, m_materials);
+            m_meshes.push_back(new Mesh(mesh.data(), mesh.size(), NULL, 0 ,vec3(0.f), vec3(0.f), vec3(1.f)));
+
+            
+
+
+            for (const auto& mesh : m_meshes)
+            {
+                mesh->Move(position);
+            }
+    }
+
 
     ~Model()
     {

@@ -44,10 +44,15 @@ public:
 
     }
 
-    void SetMaterialID(const std::string& name) // sets name / id
+    void SetID(std::string& ID)
     {
-        m_name = name;
+        m_ID = ID;
     }
+    std::string& GetID()
+    {
+        return m_ID;
+    }
+
 
     void PrintData() // debug
     {
@@ -80,8 +85,17 @@ public:
         program.Set1i(m_specularTexture, "material.specularTexture");
     }
 
+    void SetBoundTextureID (std::string& boundTexID) {
+        m_BoundTextureID = boundTexID;
+    }
+
+    std::string& GetBoundTextureID() {
+        return m_BoundTextureID;
+    }
+
 private:
-    std::string m_name;
+    std::string m_ID;
+    std::string m_BoundTextureID;
 
     vec3 m_ambient;
     vec3 m_diffuse;
